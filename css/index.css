@@ -1,0 +1,312 @@
+
+/* Establecer variables para colores y otros valores */
+:root {
+    /* Colores principales */
+    --primary-color: #28a745; /* Verde */
+    --secondary-color: #218838; /* Verde oscuro */
+    --menubajo-color: #343a40; /* Verde oscuro */
+    --accent-color: #17a2b8; /* Azul claro */
+    --danger-color: #dc3545; /* Rojo */
+    --text-color: #343a40; /* Gris oscuro */
+    --light-bg-color: #f8f9fa; /* Fondo claro */
+
+    /* Tamaños y márgenes comunes */
+    --font-size-large: 1.2rem;
+    --font-size-medium: 1rem;
+    --font-size-small: 0.9rem;
+    --border-radius: 5px;
+}
+
+/* Aplicar las variables */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--light-bg-color);
+}
+
+/* Barra inferior */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--menubajo-color);
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.bottom-nav a {
+    color: white;
+    font-size: var(--font-size-large);
+    text-align: center;
+    text-decoration: none;
+    flex: 1;
+}
+
+.bottom-nav a:hover {
+    background-color: var(--accent-color);
+    border-radius: var(--border-radius);
+}
+
+/* Estilo de los íconos */
+.bottom-nav i {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 2rem;
+}
+
+/* Espaciado para el contenido superior */
+.content {
+    flex: 1;
+    padding: 20px;
+}
+
+/* Botones de menú */
+.category-btn {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 20px;
+    width: 120px;
+    height: 120px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    margin: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.1);
+}
+
+.category-btn i {
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+.category-btn p {
+    margin: 0;
+    font-size: var(--font-size-medium);
+}
+
+/* Responsive Design for Small Screens */
+@media (max-width: 768px) {
+    .category-btn {
+        width: 100px; /* Smaller buttons for mobile */
+        height: 100px;
+        padding: 15px;
+    }
+
+    .category-btn i {
+        font-size: 1.5rem; /* Smaller icons for mobile */
+    }
+
+    .category-btn p {
+        font-size: var(--font-size-small);
+    }
+
+    /* Stack categories vertically on small screens */
+    .menu-categories {
+        display: block;
+    }
+}
+
+/* Cards Styling */
+.menu-item {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    transition: transform 0.3s ease;
+    width: 250px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.menu-item:hover {
+    transform: scale(1.05);
+}
+
+.menu-item img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 100%;
+    height: auto;
+}
+
+.menu-item-body {
+    padding: 1.5rem;
+}
+
+.menu-item-name {
+    font-size: var(--font-size-large);
+    font-weight: bold;
+}
+
+.menu-item-description {
+    color: #555;
+    margin: 10px 0;
+}
+
+.menu-item-price {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.menu-item-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: var(--font-size-medium);
+}
+
+.menu-item-button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Scrollable Container for Menu Cards */
+.scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+}
+
+.scroll-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scroll-container::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
+
+/* Estilo para las imágenes del menú */
+.menu-item img {
+    width: 100%;  /* Asegura que la imagen ocupe todo el ancho disponible */
+    height: 250px;  /* Define una altura fija */
+    object-fit: cover;  /* Mantiene la imagen en su proporción sin distorsionarla */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+/* Footer */
+footer {
+    background-color: #212529;
+    color: white;
+    padding: 20px 0;
+}
+
+/* General Styling for Offcanvas */
+.offcanvas-header {
+    background-color: #333;
+    color: #fff;
+    padding: 1.5rem;
+    border-bottom: 2px solid var(--primary-color);
+}
+
+.offcanvas-body {
+    background-color: #f4f4f4;
+    padding-top: 1rem;
+}
+
+.category-btn {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    color: #333;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    width: 100%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.category-btn:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+    transform: scale(1.05);
+    border-color: var(--secondary-color);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.category-btn i {
+    margin-right: 15px;
+}
+
+.category-btn .category-text {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* Icon Sizes */
+.category-btn i {
+    font-size: 1.7rem;
+}
+
+/* Mobile Version */
+@media (max-width: 768px) {
+    .category-btn {
+        font-size: 1rem;
+        padding: 10px;
+    }
+
+    .category-btn i {
+        font-size: 1.5rem;
+    }
+}
+
+/* Estilo para el modal (Vista Completa de la Imagen) */
+.modal-body img {
+    width: 100%;  /* La imagen se ajustará al tamaño del modal */
+    height: auto;
+}
+
+/* Estilo para las imágenes de los platillos */
+.menu-item img {
+    width: 100%;  /* Asegura que la imagen ocupe todo el ancho disponible */
+    height: 250px;  /* Define una altura fija */
+    object-fit: cover;  /* Mantiene la imagen en su proporción sin distorsionarla */
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    cursor: pointer;  /* Cambiar el cursor para indicar que es clickeable */
+}
+
+/*ocultar controles de incremento*/
+/* Estilo para ocultar el control de incremento y decremento del input */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none; /* Para Webkit/Blink (Chrome, Safari) */
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Para Firefox */
+}
+
+/* Asegura que el input sea limpio y sin borde */
+input[type="number"]:focus {
+  outline: none;
+}

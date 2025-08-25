@@ -1,0 +1,59 @@
+<!-- Modal para seleccionar cantidad -->
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <!-- Cabecera del Modal -->
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="orderModalLabel">
+            <i class="fas fa-cogs"></i> Seleccionar cantidad
+          </h5>
+          <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+  
+        <!-- Cuerpo del Modal -->
+        <div class="modal-body">
+          <div class="text-center mb-3">
+            <p id="productName" class="h4 font-weight-bold"></p>
+          </div>
+  
+<!-- Campo para la cantidad -->
+<div class="input-group mb-3">
+  <button class="btn btn-secondary" id="decreaseBtn" type="button" onclick="decreaseQuantity()">
+    <i class="fas fa-minus"></i> <!-- Ícono para disminuir -->
+  </button>
+
+  <input type="number" id="quantityInput" class="form-control text-center" value="1" min="1" aria-label="Cantidad" readonly>
+
+  <button class="btn btn-secondary" id="increaseBtn" type="button" onclick="increaseQuantity()">
+    <i class="fas fa-plus"></i> <!-- Ícono para aumentar -->
+  </button>
+</div>
+
+  
+          <!-- Mensaje de éxito -->
+          <div class="alert alert-success" id="successMessage" style="display: none;">
+            <i class="fas fa-check-circle"></i> ¡Agregado al pedido!
+          </div>
+        </div>
+  
+<!-- Pie del Modal -->
+<div class="modal-footer">
+    <!-- Botón para agregar el evento -->
+    <button type="button" class="btn btn-success btn-lg w-100 rounded-pill mb-2" onclick="addToOrder()">
+      <i class="fas fa-cart-plus"></i> Ordenar
+    </button>
+  <!-- Botón Buscar con icono -->
+  <button type="button" id="detailsModalCerrar" class="btn btn-info w-100 rounded-pill mb-2" data-bs-dismiss="modal" onclick="toggleModal('searchModal', true);">
+    <i class="fas fa-plus"></i>  Platillos
+  </button>
+  
+  <!-- Botón Cerrar con icono -->
+  <button type="button" id="detailsModalCerrar" class="btn btn-danger w-100 rounded-pill mb-2" data-bs-dismiss="modal" onclick="toggleModal('searchModal', false);">
+    <i class="fas fa-times"></i> Cerrar
+  </button>
+</div>
+
+
+      </div>
+    </div>
+  </div>

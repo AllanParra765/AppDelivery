@@ -1,0 +1,24 @@
+<!-- Offcanvas (Menú de Categorías) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <div class="offcanvas-header">
+      <h5 id="offcanvasMenuLabel">Menú</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-unstyled" id="categoryList">
+        <!-- Las categorías se cargarán aquí -->
+      </ul>
+    </div>
+</div>
+
+<!-- Contenedor donde se cargarán dinámicamente las categorías que se ven al seleccionar una opcion del menú -->
+<section class="menu-section" id="menuSection" style="display: none;">
+    <div class="container">
+        <h2 class="text-center my-4 py-3 bg-success text-white rounded shadow-sm text-uppercase" id="sectionTitle"></h2>
+        <div class="scroll-container" id="menuItems">
+
+            <!-- Los productos de la categoría seleccionada se cargarán aquí -->
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú con Pestañas</title>
+    <!-- Vincular Bootstrap y FontAwesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+
+    <!-- DataTables y JSZip -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.1.0/css/buttons.dataTables.min.css">
+    <link href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" rel="stylesheet">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/admin.css">
+    <!-- select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+    <div id="content"></div>
+    <div id="categoria"></div>
+
+    <!-- Modal para agregar y modificar platillos -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="productModalLabel">Agregar Platillo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="productForm">
+                        <!-- Nombre del Platillo -->
+                        <div class="mb-3">
+                            <label for="productNameLabel" class="form-label">Nombre del Platillo</label>
+                            <input type="text" class="form-control" id="productName"
+                                placeholder="Ingrese el nombre del platillo" required>
+                        </div>
+                        <!-- Descripción -->
+                        <div class="mb-3">
+                            <label for="productDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="productDescription" placeholder="Describa el platillo"
+                                required></textarea>
+                        </div>
+                        <!-- Precio -->
+                        <div class="mb-3">
+                            <label for="productPrice" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="productPrice" placeholder="Ingrese el precio"
+                                required>
+                        </div>
+                        <!-- Imagen -->
+                        <div class="mb-3">
+                            <label for="personaImage" class="form-label">Seleccionar Imagen</label>
+                            <input type="file" id="personaImage" name="personaImage" accept="image/*"
+                                class="form-control p-2" required>
+                            <input type="text" class="form-control mt-2" id="productImage" readonly style="display: none;">
+                        </div>
+                        <!-- Vista previa de la imagen -->
+                        <div class="mb-3">
+                            <label class="form-label">Vista Previa de la Imagen</label>
+                            <div id="imagePreview" class="d-flex justify-content-center align-items-center"
+                                style="width: 100%; height: 200px; border: 2px dashed #ddd; background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #f8f9fa;">
+                                <p class="text-center">No se ha seleccionado ninguna imagen</p>
+                            </div>
+                        </div>
+                        <!-- Categoría -->
+                        <div class="mb-3" id="categoriaActualizar">
+                            <label class="form-label">Categoría: </label> <label class="form-label fw-bold"
+                                id="categoriaActual"></label>
+                            <select id="productCategory" class="form-control js-example-basic-single2" 
+                            name="state" style="width: 100%;" onclick="llenarInformacionCategoria();">
+                                <!-- Las opciones se agregarán desde JS -->
+                            </select>
+                        </div>
+                        <!-- Ingredientes -->
+                        <div class="mb-3">
+                            <label for="productIngredients" class="form-label">Ingredientes (separados por ",")</label>
+                            <input type="text" class="form-control" id="productIngredients"
+                                placeholder="Ej: Harina, Azúcar, Sal" required>
+                        </div>
+                        <!-- Estado -->
+                        <div class="mb-3" id="productStatusActualizar">
+                            <label for="productStatus" class="form-label">Estado</label>
+                            <select class="form-control" id="productStatus">
+                                <option value="activo" selected>Activo</option>
+                                <option value="inactivo">Inactivo</option>
+                            </select>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" id="resetImageButton" style="display: none;">Volver a Cargar</button>
+                    <button type="button" class="btn btn-success" id="saveProductButton">Guardar Platillo</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<!-- Modal de Agregar/Modificar Promociones -->
+<div class="modal fade" id="promocionModal" tabindex="-1" aria-labelledby="promocionModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="promocionModalLabel">Agregar/Modificar Promoción</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="promocionForm">
+                    <div class="mb-3">
+                        <label for="promocionName" class="form-label">Nombre Promoción</label>
+                        <input type="text" class="form-control" id="promocionName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="promocionDescription" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="promocionDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="promocionPrice" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="promocionPrice" required>
+                    </div>
+
+                    <!-- Imagen promociones-->
+                    <div class="mb-3">
+                        <label for="promocionImagetexto" class="form-label">Seleccionar Imagen</label>
+                        <input type="file" id="promocionImage" name="promocionImage" accept="image/*" class="form-control p-2" required>
+                        <input type="text" class="form-control mt-2" id="promoImage" readonly>
+                    </div>
+
+                    <!-- Vista previa de la imagen promociones-->
+                    <div class="mb-3">
+                        <label class="form-label">Vista Previa de la Imagen</label>
+                        <div id="imagePreviewpromo" class="d-flex justify-content-center align-items-center"
+                             style="width: 100%; height: 200px; border: 2px dashed #ddd; background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #f8f9fa;">
+                            <p class="text-center">No se ha seleccionado ninguna imagen</p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="promoImg" class="form-label">Imagen URL</label>
+                        <input type="text" class="form-control" id="promoImg" required readonly>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="promocionValidity" class="form-label">Validez</label>
+                        <input type="text" class="form-control" id="promocionValidity" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Guardar promoción</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-warning" id="resetImageButtonPromo" style="display: none;">Volver a Cargar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <!-- Modal para Agregar/Modificar Pedido -->
+    <div class="modal fade" id="pedidoModal" tabindex="-1" aria-labelledby="pedidoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="pedidoModalLabel">Agregar/Modificar Pedido</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="pedidoForm">
+                        <div class="mb-3">
+                            <label for="pedidoID" class="form-label">ID Pedido</label>
+                            <input type="text" class="form-control" id="pedidoID" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pedidoName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="pedidoName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pedidoPhone" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="pedidoPhone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pedidoItems" class="form-label">Pedido</label>
+                            <textarea class="form-control" id="pedidoItems" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pedidoDate" class="form-label">Fecha</label>
+                            <input type="date" class="form-control" id="pedidoDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pedidoStatus" class="form-label">Estado</label>
+                            <select class="form-select" id="pedidoStatus" required>
+                                <option value="pending">Pendiente</option>
+                                <option value="completed">Completado</option>
+                                <option value="canceled">Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pedidoTotal" class="form-label">Total</label>
+                            <input type="number" class="form-control" id="pedidoTotal" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Librerías necesarias -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.1.3/dist/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.1.0/js/buttons.print.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script src="js/admin/admin.js"></script>
+    <script src="js/admin/platillos.js"></script>
+    <script src="js/admin/promociones.js"></script>
+    <script src="js/admin/pedidos.js"></script>
+    <script src="js/admin/categorias.js"></script>
+    <script src="js/admin/footerAdmin.js"></script>
+    <script src="js/ejemploPeticion.js"></script>
+    <script src="js/conexionAPI.js"></script>
+    <script src="js/Generales/axiosConsultas.js"></script>
+    <script src="js/Generales/alerts.js"></script>
+</body>
+
+</html>

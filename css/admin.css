@@ -1,0 +1,130 @@
+body {
+    background-color: #f4f6f9;
+}
+
+.container {
+    max-width: 1400px;
+}
+
+.btn-custom {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: #218838;
+}
+
+table {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    text-align: center;
+}
+
+.table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+.table tbody tr {
+    transition: background-color 0.3s;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.modal-header {
+    background-color: #343a40;
+    color: white;
+}
+/*////////////////////////////////////////////////////////////////////////////*/
+/*estilo de las ul */
+        /* Aumentar tamaño de los textos */
+        h2 {
+            font-size: 2.5rem;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        /* Botones con colores y efectos */
+        .btn-custom {
+            background-color: #28a745;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        
+        .btn-custom:hover {
+            background-color: #218838;
+            color: white;
+        }
+
+        .btn-warning-custom {
+            background-color: #ffc107;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            border-radius: 5px;
+        }
+        
+        .btn-warning-custom:hover {
+            background-color: #e0a800;
+            color: white;
+        }
+
+        /* Estilos para los iconos */
+        .btn i {
+            margin-right: 8px;
+        }
+
+        /* Colores personalizados para las pestañas */
+        .nav-pills .nav-link {
+            background-color: #f8f9fa;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 5px;
+            color: #343a40;
+        }
+
+        .nav-pills .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Estilo para las tablas */
+        table.dataTable thead th {
+            background-color: #f1f1f1;
+            font-size: 1.1rem;
+            color: #495057;
+        }
+
+        /* Estilo para las filas de la tabla */
+        table.dataTable tbody tr {
+            font-size: 1rem;
+            color: #495057;
+        }
+        
+        /* Mejorar el aspecto de las celdas de la tabla */
+        table.dataTable tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        /* Para las celdas con el icono de estado */
+        .status-active {
+            color: green;
+        }
+
+        .status-inactive {
+            color: red;
+        }
+
+        /* Colores de texto */
+        .text-highlight {
+            font-size: 1.55rem;
+            font-weight: bold;
+        }
+

@@ -1,0 +1,72 @@
+-- PASO 1
+crear Certificados en la carpeta API
+key.pem
+cert.pem
+COMANDO: openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+
+-- PASO 2
+Creamos ahora una KEY sin contraseña 
+openssl rsa -in key.pem -out key_no_password.pem
+
+-- PASO 3 Conocer la IP de la maquina 
+ifconfig EN MAC/LINUX
+ipconfig EN WINDOWS
+buscamos algo similar a 
+192.158.X.X nos ayuda paa conectarnos con https
+
+-- PASO 4 AGREGAMOS ESTAS LINEAS 
+Colocamos rutas de los certificados a usar https 
+
+const options = {
+    key: fs.readFileSync('/Users/allan/Downloads/ColonialFolklor2_Movil_Web-1/API/key_no_password.pem'),
+    cert: fs.readFileSync('/Users/allan/Downloads/ColonialFolklor2_Movil_Web-1/API/cert.pem')
+  };
+  
+
+// Función para obtener la IP local
+function getLocalIP() {
+    const interfaces = os.networkInterfaces();
+    let localIP = '';
+    
+    // Iterar sobre las interfaces de red para obtener la IP de la red activa
+    for (let iface in interfaces) {
+        for (let i = 0; i < interfaces[iface].length; i++) {
+            const ifaceDetails = interfaces[iface][i];
+            if (ifaceDetails.family === 'IPv4' && !ifaceDetails.internal) {
+                localIP = ifaceDetails.address;
+                break;
+            }
+        }
+    }
+    return localIP;
+}
+// Iniciar servidor HTTPS para la vista
+//https.createServer(options,app).listen(3001, 'localhost', () => {
+// Iniciar servidor HTTPS en la IP local obtenida
+https.createServer(options, app).listen(3001, '0.0.0.0', () => {
+    const localIP = getLocalIP();
+    console.log(`
+    ========================================
+    🔐 \x1b[36mVista disponible en Equipos SIN INTERNET:\x1b[0m
+    - 🖥️ https://${localIP}:3001
+    🔐 \x1b[36mVista disponible en Equipos CON INTERNET:\x1b[0m
+    - 📱 clic a la siguiente ruta: ${config.rutaAbrir}
+    ========================================
+    `);
+
+- PASO 4 colocar las rutas abrir 
+  
+    setTimeout(() => {
+        // Abrir automáticamente el navegador en una segunda URL (25 segundos después)
+        // Para Windows, abrir con Google Chrome
+        exec('start "" "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe" "' + config.rutaAbrir + '"'); // Windows (Chrome)
+    
+        // Para Linux, abrir con el navegador predeterminado
+        exec('xdg-open "' + config.rutaAbrir + '"'); // Linux
+        exec('xdg-open "' + `https://192.168.1.5:${3001}` + '"'); // Linux
+    
+        // Para macOS, abrir con Firefox
+        exec('open -a "Firefox" "' + config.rutaAbrir + '"'); // macOS (Firefox)
+        exec('open -a "Firefox" "' + `https://192.168.1.5:${3001}` + '"'); // macOS (Firefox)
+    }, 12000);
+    

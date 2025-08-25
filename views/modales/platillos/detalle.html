@@ -1,0 +1,44 @@
+<!-- Modal de Detalles del Platillo (Imagen e Ingredientes) de los cards-->
+<div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <!-- Cabecera del Modal -->
+        <div class="modal-header bg-success text-white">
+          <h5 class="modal-title" id="detailsModalLabel">Detalles del Platillo</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+        <!-- Cuerpo del Modal -->
+        <div class="modal-body">
+          <!-- Imagen del Platillo -->
+          <div class="text-center mb-4">
+            <img id="modalImage" src="" alt="Imagen del platillo" class="img-fluid rounded shadow-sm" style="max-height: 300px; object-fit: cover;">
+          </div>
+  
+          <!-- Ingredientes -->
+          <div id="ingredientsSection" class="mt-4">
+            <h5 class="mb-3 text-success">Ingredientes:</h5>
+            <!-- Usamos el sistema de grid de Bootstrap para dos columnas -->
+            <div class="row" id="modalIngredients">
+              <!-- Los ingredientes se llenarán dinámicamente -->
+            </div>
+          </div>
+        </div>
+        
+<!-- Pie del Modal -->
+<div class="modal-footer">
+  <!-- Botón Buscar con icono -->
+  <button type="button" id="detailsModalCerrar" class="btn btn-info w-100 rounded-pill mb-2" data-bs-dismiss="modal" onclick="toggleModal('searchModal', true);">
+    <i class="fas fa-plus"></i>  Platillos
+  </button>
+  
+  <!-- Botón Cerrar con icono -->
+  <button type="button" id="detailsModalCerrar" class="btn btn-danger w-100 rounded-pill mb-2" data-bs-dismiss="modal" onclick="toggleModal('searchModal', false);">
+    <i class="fas fa-times"></i> Cerrar
+  </button>
+</div>
+
+      </div>
+    </div>
+  </div>
+

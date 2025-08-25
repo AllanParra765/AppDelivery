@@ -1,0 +1,26 @@
+<!-- Modal para Buscar y Agregar Platillo -->
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true" data-bs-backdrop="static">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="searchModalLabel">Buscar Platillo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <!-- Campo de búsqueda con ícono -->
+              <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1"><i class="fas fa-search"></i></span>
+                  <input type="text" id="searchInput" class="form-control" placeholder="Busca un platillo..." onkeyup="PlatillosPeticion()" aria-describedby="basic-addon1">
+              </div>
+              
+              <!-- Lista de platillos -->
+              <ul id="platilloList" class="list-group list-group-flush">
+                  <!-- Lista de platillos, los ítems se agregarán dinámicamente -->
+              </ul>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          </div>
+      </div>
+  </div>
+</div>

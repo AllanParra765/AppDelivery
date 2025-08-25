@@ -1,0 +1,33 @@
+     <!-- Menú inferior -->
+     <div class="bottom-nav">
+      <a href="#" data-bs-toggle="modal" data-bs-target="#orderSummaryModal">
+          <i class="fas fa-shopping-cart"></i>
+          <p>Ver Pedido</p>
+      </a>
+      <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+          <i class="fas fa-utensils"></i>
+          <p>Menú</p>
+      </a>
+  
+  <!-- Botón para abrir el modal de búsqueda -->
+  <a href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
+      <i class="fas fa-search"></i>
+      <p>Buscar</p>
+    </a>
+  </div>
+  
+  
+  <!-- Offcanvas (Menú de Categorías) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+    <div class="offcanvas-header">
+      <h5 id="offcanvasMenuLabel">Menú</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+      <ul class="list-unstyled" id="categoryList">
+        <!-- Categoría Promociones (dinámicamente visible/oculta) -->
+        <!-- Esta categoría será agregada u ocultada dinámicamente desde JS -->
+        <!-- Las demás categorías se cargarán dinámicamente -->
+      </ul>
+    </div>
+</div>

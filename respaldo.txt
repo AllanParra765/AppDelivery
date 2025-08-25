@@ -1,0 +1,39 @@
+mi-proyecto/
+├── index.html
+├── server.js (o app.js)
+├── css/
+├── js/
+└── images/
+
+Crear el archivo index.html
+Crear el archivo de servidor server.js
+
+VALIDAR VERSIONES
+node -v
+npm -v
+
+INICIALIZAR
+Inicializar tu proyecto con npm
+npm init -y
+
+INSTALACIONES
+npm install express body-parser cors path nodemon open@8.0.0  
+
+//SI YA ESTA INSTALADO SOLO EJECUTAMOS 
+npm init -y
+
+Iniciar tu servidor Node.js
+node server.js
+
+NOTA instalar nodeMon para ver cambios en tiempo real 
+npm install -g nodemon
+
+colocar en el package.JSON
+"scripts": {
+  "start": "node server.js",  // Este es tu script normal de Node
+  "dev": "nodemon server.js"  // Este es el comando para usar Nodemon
+}
+
+CORRER nodemon
+sudo npm run dev
+sudo npm run start 

@@ -1,0 +1,53 @@
+
+ <!-- Modal para mostrar resumen del pedido -->
+ <div class="modal fade" id="orderSummaryModal" tabindex="-1" aria-labelledby="orderSummaryModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <!-- Cabecera del Modal -->
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="orderSummaryModalLabel">
+                    <i class="fas fa-list-ul"></i> Resumen del Pedido
+                </h5>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <!-- Cuerpo del Modal -->
+            <div class="modal-body">
+<!-- Campo para ingresar nombre del cliente -->
+<div class="mb-3">
+    <label for="customerNameInput" class="form-label text-success">Nombre del Cliente</label>
+    <div class="input-group">
+      <span class="input-group-text"><i class="fas fa-user"></i></span> <!-- Ícono de usuario -->
+      <input type="text" class="form-control" id="customerNameInput" placeholder="Orden a nombre de" required>
+    </div>
+    <!-- Mensaje de validación (opcional) -->
+    <div id="customerNameFeedback" class="invalid-feedback">
+      Por favor, ingresa el nombre del cliente.
+    </div>
+  </div>
+  
+
+                <!-- Resumen de los productos en el pedido -->
+                <ul id="orderSummary" class="list-group">
+                    <!-- Aquí aparecerán los productos agregados -->
+                </ul>
+
+                <!-- Total -->
+                <div class="d-flex justify-content-between mt-4">
+                    <strong>Total:</strong>
+                    <p id="totalAmount" class="h4 text-success">$0.00</p>
+                </div>
+            </div>
+            
+            <!-- Pie del Modal -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success w-100 rounded-pill mb-2" onclick="sendToWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Enviar por WhatsApp
+                </button>
+                <button type="button" class="btn btn-primary w-100 rounded-pill mb-2" onclick="downloadPDF()">
+                    <i class="fas fa-file-pdf"></i> Descargar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div> 

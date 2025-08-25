@@ -1,0 +1,59 @@
+<!-- Footer -->
+<footer class="bg-dark text-white mt-4">
+    <div class="container py-5">
+        <!-- Botón de collapse para mostrar el contenido -->
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <button class="btn btn-outline-light w-100" type="button" data-bs-toggle="collapse" data-bs-target="#contactSection" aria-expanded="false" aria-controls="contactSection">
+                    Contactar
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenido del footer (formulario y redes sociales) -->
+        <div class="collapse" id="contactSection">
+            <!-- Sección de contacto -->
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-6 text-center">
+                    <h5 class="fs-4 mb-3">Contacto</h5>
+                    <p class="small mb-4">Si tienes alguna pregunta o necesitas más información, no dudes en contactarnos.</p>
+
+                    <!-- Formulario de contacto -->
+                    <form id="contactForm" onsubmit="sendWhatsAppMessage(event)">
+                        <div class="mb-3">
+                            <label for="name" class="form-label fs-6">Nombre</label>
+                            <input type="text" class="form-control form-control-sm" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label fs-6">Mensaje</label>
+                            <textarea class="form-control form-control-sm" id="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-sm w-100">
+                            <i class="fab fa-whatsapp fa-lg"></i> Enviar Mensaje
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sección de Redes Sociales -->
+            <div class="row mt-4 text-center">
+                <div class="col-md-12">
+                    <a href="https://wa.me/+524772307241" target="_blank" class="text-white me-3">
+                        <i class="fab fa-whatsapp fa-2x"></i>
+                    </a>
+                    <a href="https://www.facebook.com/MNegocioOficial" target="_blank" class="text-white me-3">
+                        <i class="fab fa-facebook fa-2x"></i>
+                    </a>
+                    <a href="mailto:allan.parrae@gmail.com" class="text-white">
+                        <i class="fas fa-envelope fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Copyright -->
+        <div class="text-center py-3 mt-4">
+            <p class="small">&copy; 2025 Softprise. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
