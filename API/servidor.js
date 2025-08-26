@@ -117,7 +117,8 @@ app.post('/imagenes', upload.single('personaImage'), (req, res) => {
         }
 
         // Si el archivo fue renombrado correctamente, generar la URL de la imagen
-        const imageUrl = `/imagenes/${newFileName}`;
+       // const imageUrl = `/imagenes/${newFileName}`;
+       const imageUrl = `${newFileName}`;
         console.log("Imagen subida y renombrada:", imageUrl);
 
         // Enviar la respuesta con la URL de la imagen renombrada

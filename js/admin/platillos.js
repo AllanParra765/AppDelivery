@@ -1,4 +1,37 @@
 let productosData= []; // Array para almacenar los datos de los platillos
+// Función para alternar la visibilidad de los elementos con la clase "ocultarAgregarPlatillo"
+/*function toggleVisibility() {
+    // Obtener todos los elementos con la clase 'ocultarAgregarPlatillo'
+    const elements = document.querySelectorAll('.ocultarAgregarPlatillo');
+
+    // Iterar sobre los elementos y alternar su visibilidad
+    elements.forEach(element => {
+        // Si el elemento está visible, lo ocultamos, de lo contrario lo mostramos
+        if (element.style.display === 'none') {
+            element.style.display = 'block';  // Mostrar el elemento
+        } else {
+            element.style.display = 'none';   // Ocultar el elemento
+        }
+    });
+}*/
+// Función para mostrar los elementos con la clase "ocultarAgregarPlatillo"
+function verElements() {
+    const elements = document.querySelectorAll('.ocultarAgregarPlatillo');
+
+    elements.forEach(element => {
+        element.style.display = 'block';  // Mostrar el elemento
+    });
+}
+
+// Función para ocultar los elementos con la clase "ocultarAgregarPlatillo"
+function ocultarElements() {
+    const elements = document.querySelectorAll('.ocultarAgregarPlatillo');
+
+    elements.forEach(element => {
+        element.style.display = 'none';  // Ocultar el elemento
+    });
+}
+
 
 //categorias agregar o Modificar n Modal
 async function llenarInformacionCategoria() {
@@ -101,11 +134,12 @@ function cargarImagen(imageUrl) {
 }
 // Función para restablecer la imagen 
 function resetImage() {
+    ocultarElements(); // Ocultar los elementos con la clase "ocultarAgregarPlatillo"
     document.getElementById('personaImage').value = '';  // Restablecer el campo de imagen
     document.getElementById('imagePreview').style.backgroundImage = '';  // Eliminar la vista previa
     document.getElementById('productImage').value = '';  // Eliminar la URL de la imagen
     document.getElementById('resetImageButton').style.display = 'none';  // Eliminar la imagen subida
-    document.getElementById('productStatusActualizar').style.display = 'block';  // Eliminar la imagen subida
+   // document.getElementById('productStatusActualizar').style.display = 'block';  // Eliminar la imagen subida
 
 }
 //Movemos la imagen y traemos la ruta de la imagen para guardar el registro del platillo
@@ -163,35 +197,48 @@ async function saveProduct() {
         imageUrl = $('#productImage').val(); // Obtener la URL de la imagen existente (si no se seleccionó una nueva)
     }
 
-    // Crear el objeto del platillo con los datos
-    const product = {
-        id_platillo: $('#productModal').data('productId') || null, // Si no hay ID, será null (para nuevo platillo)
-        nombre: $('#productName').val(),
-        descripcion: $('#productDescription').val(),
-        precio: parseFloat($('#productPrice').val()),
-        imagen: imageUrl,
-        categoria: $('#productCategory').val(),
-        estado: $('#productStatus').val(),
-        ingredientes: $('#productIngredients').val()
-    };
+    
+   let estadoPlatillo;
+   if ($('#productCategory').val() !== "") {
+       estadoPlatillo = document.getElementById('productCategory').value;
+   } else {
+       estadoPlatillo = $('#categoriaActual').val();
+   }
+   
 
-    // Si estamos modificando
-    if (product.id_platillo) { 
-        const index = productosData.findIndex(item => parseInt(item.id_platillo) === parseInt(product.id_platillo));
-        if (index !== -1) {
-            productosData[index] = product;  // Actualiza el platillo en el array
-//            alert('Platillo modificado con éxito');
-            mostrarAlerta('Platillo modificado con éxito', 'success');
-        }
-    } else { // Si no existe un ID, estamos agregando un nuevo platillo
-        product.id_platillo = Date.now();  // Asigna un ID único para el nuevo platillo (puedes cambiarlo a lo que necesites)
-        productosData.push(product);  // Agrega el platillo a la lista
-//        alert('Platillo agregado con éxito');
-        mostrarAlerta('Platillo agregado con éxito', 'success');
+// Crear el objeto del platillo con los datos
+const product = {
+    id_platillo: $('#productModal').data('productId') || null, // Si no hay ID, será null (para nuevo platillo)
+    nombre: $('#productName').val(),
+    descripcion: $('#productDescription').val(),
+    precio: parseFloat($('#productPrice').val()),
+    imagen: imageUrl,  // Asegúrate de obtener esta URL de manera correcta
+    categoria: $('#productCategory').val() || $('#categoriaActual').val(),  // Tomar el valor de la categoría
+    ingredientes: $('#productIngredients').val()
+};
+
+// Si estamos modificando
+if (product.id_platillo) { 
+    const index = productosData.findIndex(item => parseInt(item.id_platillo) === parseInt(product.id_platillo));
+    if (index !== -1) {
+        productosData[index] = product;  // Actualiza el platillo en el array
+        console.log('Producto modificado:', product);
+        actualizarPlatillo(product);
+        initializePlatillosTable();
+        mostrarAlerta('Platillo modificado con éxito', 'success');
     }
+} else { // Si no existe un ID, estamos agregando un nuevo platillo
+    product.id_platillo = Date.now();  // Asigna un ID único para el nuevo platillo (puedes cambiarlo a lo que necesites)
+    productosData.push(product);  // Agrega el platillo a la lista
+    console.log('Nuevo producto agregado:', product);
+    insertarPlatillo( product);
+    initializePlatillosTable();
+       // mostrarAlerta('Platillo agregado con éxito', 'success');
+}
+
 
     // Redibujar la tabla con los datos actualizados
-    table.clear().rows.add(productosData).draw();
+ //   table.clear().rows.add(productosData).draw();
 
     // Cerrar el modal
     $('#productModal').modal('hide');
@@ -280,14 +327,17 @@ async function initializePlatillosTable() {
 
 // Función para modificar platillo
 window.modifyProduct = function(name) {
-//    console.log('Modificar platillo:', typeof(name));
+    verElements(); // Mostrar los elementos con la clase "ocultarAgregarPlatillo"
     const product = productosData.find(item => item.id_platillo === parseInt(name));
-    console.log('productosData encontrado:', productosData);
-  //  console.log('Producto encontrado:', product);
+   // console.log('productosData encontrado:', productosData);
+
+  
     if (product) {
         document.getElementById('resetImageButton').style.display = 'block';  // Eliminar la imagen subida
-        document.getElementById('productStatusActualizar').style.display = 'none';  // Eliminar la imagen subida
+      //  document.getElementById('productStatusActualizar').style.display = 'none';  // Ocultar el estado si es necesario
         $('#productModalLabel').text('Modificar Platillo');
+        
+        // Cargar los datos en el formulario
         $('#productName').val(product.nombre);
         $('#productDescription').val(product.descripcion);
         $('#productPrice').val(product.precio);
@@ -297,16 +347,22 @@ window.modifyProduct = function(name) {
         cargarImagen(product.imagen);
 
         // Establecer la categoría y el estado del platillo
-        $('#productCategory').val(product.categoria_id);
+        $('#productCategory').val(product.categoria_id);  // Establecer el valor del select para categoría
         $('#productIngredients').val(product.ingredientes);
         $('#productStatus').val(product.estado);
+
+        // Mostrar la categoría seleccionada en el campo de texto
+        $('#categoriaActual').val(product.categoria);  // Mostrar el nombre de la categoría en el campo de texto
 
         // Guardamos el ID del platillo que se está modificando para referenciarlo en el guardado
         $('#productModal').data('productId', product.id_platillo);  // Guardamos el ID para usarlo más tarde
 
+        // Mostrar el modal
         $('#productModal').modal('show');
     }
 };
+
+
 
 
     // Función para alternar el estado de un platillo
@@ -353,14 +409,13 @@ $('#saveProductButton').on('click', function() {
         precio: parseFloat($('#productPrice').val()),
         imagen: $('#productImage').val(),
         categoria: $('#productCategory').val(),
-        estado: $('#productStatus').val(),
+        estado: "",//$('#productStatus').val(),
         ingredientes: $('#productIngredients').val()
 };
 if (product.id_platillo) { // Si existe un ID, estamos modificando
     const index = productosData.findIndex(item => item.id_platillo === product.id_platillo);
     if (index !== -1) {
         productosData[index] = product;  // Actualiza el platillo en el array
-        //alert('Platillo modificado con éxito1');
         mostrarAlerta('Platillo modificado con éxito1', 'success');
     }
 } else { // Si no existe un ID, estamos agregando un nuevo platillo
@@ -368,6 +423,7 @@ if (product.id_platillo) { // Si existe un ID, estamos modificando
     productosData.push(product);  // Agrega el platillo a la lista
    // alert('Platillo agregado con éxito2');
     mostrarAlerta('Platillo agregado con éxito2', 'success');
+    initializePlatillosTable();
 }
 
 // Redibujar la tabla con los datos actualizados
@@ -388,4 +444,27 @@ $('#addproductosButton').on('click', function() {
     $('#categoriaActual').hide();  // Ocultar la categoría
 });
 
+}
+
+async function actualizarPlatillo (platillo){
+    try {
+        const response = await hacerPeticion(llenarJSONConsultar("CRUD_Restaurante", "actualizarPlatillo", platillo));
+        console.log('Respuesta de la API: modificarPlatillo', response);
+        return response; // Devuelve los datos obtenidos de la API
+    } catch (error) {
+        console.error('Error al cargar los datos de modificarPlatillo:', error);
+        return []; // Retorna un arreglo vacío en caso de error
+    }
+}
+
+// Función para insertar un nuevo platillo
+async function insertarPlatillo(platilloNuevo) {
+    try {
+        const response = await hacerPeticion(llenarJSONConsultar("CRUD_Restaurante", "insertarPlatillo", platilloNuevo));
+        console.log('Respuesta de la API: insertarPlatillo', response);
+        return response; // Devuelve los datos obtenidos de la API
+    } catch (error) {
+        console.error('Error al cargar los datos de insertarPlatillo:', error);
+        return []; // Retorna un arreglo vacío en caso de error
+    }
 }

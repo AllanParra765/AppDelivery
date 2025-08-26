@@ -25,143 +25,147 @@
     <div id="content"></div>
     <div id="categoria"></div>
 
-    <!-- Modal para agregar y modificar platillos -->
-    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title" id="productModalLabel">Agregar Platillo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="productForm">
-                        <!-- Nombre del Platillo -->
-                        <div class="mb-3">
+<!-- Modal para agregar y modificar platillos -->
+<div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title" id="productModalLabel">Agregar Platillo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="productForm">
+                    <div class="row">
+                        <!-- Columna 1: Nombre, Descripción, Precio -->
+                        <div class="col-md-6 mb-3">
                             <label for="productNameLabel" class="form-label">Nombre del Platillo</label>
-                            <input type="text" class="form-control" id="productName"
-                                placeholder="Ingrese el nombre del platillo" required>
+                            <input type="text" class="form-control" id="productName" placeholder="Ingrese el nombre del platillo" required>
                         </div>
-                        <!-- Descripción -->
-                        <div class="mb-3">
-                            <label for="productDescription" class="form-label">Descripción</label>
-                            <textarea class="form-control" id="productDescription" placeholder="Describa el platillo"
-                                required></textarea>
-                        </div>
-                        <!-- Precio -->
-                        <div class="mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="productPrice" class="form-label">Precio</label>
-                            <input type="number" class="form-control" id="productPrice" placeholder="Ingrese el precio"
-                                required>
+                            <input type="number" class="form-control" id="productPrice" placeholder="Ingrese el precio" required>
                         </div>
-                        <!-- Imagen -->
-                        <div class="mb-3">
+
+                        <!-- Columna 2: Descripción, Ingredientes, Estado -->
+                        <div class="col-md-6 mb-3">
+                            <label for="productDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="productDescription" placeholder="Describa el platillo" required></textarea>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="productIngredients" class="form-label">Ingredientes (separados por ",")</label>
+                            <input type="text" class="form-control" id="productIngredients" placeholder="Ej: Harina, Azúcar, Sal" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3" id="categoriaActualizar">
+                            <label class="form-label">Nueva Categoría:</label>
+                            <select id="productCategory" class="form-control" name="state" style="width: 100%;" onclick="llenarInformacionCategoria();">
+                                <!-- Las opciones se agregarán desde JS -->
+                            </select>
+                        </div>
+
+                        <!-- Columna 1: Imagen, Vista previa -->
+                        <div class="col-md-6 mb-3">
                             <label for="personaImage" class="form-label">Seleccionar Imagen</label>
-                            <input type="file" id="personaImage" name="personaImage" accept="image/*"
-                                class="form-control p-2" required>
+                            <input type="file" id="personaImage" name="personaImage" accept="image/*" class="form-control p-2" required>
                             <input type="text" class="form-control mt-2" id="productImage" readonly style="display: none;">
                         </div>
-                        <!-- Vista previa de la imagen -->
-                        <div class="mb-3">
+                        <div class="col-md-6 mb-3 ocultarAgregarPlatillo">
+                            <label for="categoriaActual" class="form-label">Categoria seleccionada:</label>
+                            <input type="text" class="form-control mt-2 ocultarAgregarPlatillo" id="categoriaActual" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Vista Previa de la Imagen</label>
                             <div id="imagePreview" class="d-flex justify-content-center align-items-center"
                                 style="width: 100%; height: 200px; border: 2px dashed #ddd; background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #f8f9fa;">
                                 <p class="text-center">No se ha seleccionado ninguna imagen</p>
                             </div>
                         </div>
-                        <!-- Categoría -->
-                        <div class="mb-3" id="categoriaActualizar">
-                            <label class="form-label">Categoría: </label> <label class="form-label fw-bold"
-                                id="categoriaActual"></label>
-                            <select id="productCategory" class="form-control js-example-basic-single2" 
-                            name="state" style="width: 100%;" onclick="llenarInformacionCategoria();">
-                                <!-- Las opciones se agregarán desde JS -->
-                            </select>
-                        </div>
-                        <!-- Ingredientes -->
-                        <div class="mb-3">
-                            <label for="productIngredients" class="form-label">Ingredientes (separados por ",")</label>
-                            <input type="text" class="form-control" id="productIngredients"
-                                placeholder="Ej: Harina, Azúcar, Sal" required>
-                        </div>
-                        <!-- Estado -->
-                        <div class="mb-3" id="productStatusActualizar">
+                    <!--   <div class="col-md-6 mb-3 ocultarAgregarPlatillo" id="productStatusActualizar">
                             <label for="productStatus" class="form-label">Estado</label>
                             <select class="form-control" id="productStatus">
-                                <option value="activo" selected>Activo</option>
-                                <option value="inactivo">Inactivo</option>
+                                <option value="activo">Activo</option>
+                                <option value="inactivo" selected>Inactivo</option>
                             </select>
-                        </div>
+                        </div>--> 
 
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-warning" id="resetImageButton" style="display: none;">Volver a Cargar</button>
-                    <button type="button" class="btn btn-success" id="saveProductButton">Guardar Platillo</button>
-                </div>
+                        <!-- Columna 2: Categoría, Estado -->
+                   
+                    </div> <!-- Fin de la fila (row) -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-warning" id="resetImageButton" style="display: none;">Volver a Cargar</button>
+                <button type="button" class="btn btn-success" id="saveProductButton">Guardar Platillo</button>
             </div>
         </div>
     </div>
+</div>
+
 
 
 
 <!-- Modal de Agregar/Modificar Promociones -->
 <div class="modal fade" id="promocionModal" tabindex="-1" aria-labelledby="promocionModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header bg-info text-white">
                 <h5 class="modal-title" id="promocionModalLabel">Agregar/Modificar Promoción</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="promocionForm">
-                    <div class="mb-3">
-                        <label for="promocionName" class="form-label">Nombre Promoción</label>
-                        <input type="text" class="form-control" id="promocionName" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="promocionDescription" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="promocionDescription" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="promocionPrice" class="form-label">Precio</label>
-                        <input type="number" class="form-control" id="promocionPrice" required>
-                    </div>
-
-                    <!-- Imagen promociones-->
-                    <div class="mb-3">
-                        <label for="promocionImagetexto" class="form-label">Seleccionar Imagen</label>
-                        <input type="file" id="promocionImage" name="promocionImage" accept="image/*" class="form-control p-2" required>
-                        <input type="text" class="form-control mt-2" id="promoImage" readonly>
-                    </div>
-
-                    <!-- Vista previa de la imagen promociones-->
-                    <div class="mb-3">
-                        <label class="form-label">Vista Previa de la Imagen</label>
-                        <div id="imagePreviewpromo" class="d-flex justify-content-center align-items-center"
-                             style="width: 100%; height: 200px; border: 2px dashed #ddd; background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #f8f9fa;">
-                            <p class="text-center">No se ha seleccionado ninguna imagen</p>
+                    <div class="row">
+                        <!-- Columna 1: Nombre Promoción, Descripción, Precio -->
+                        <div class="col-md-6 mb-3">
+                            <label for="promocionName" class="form-label">Nombre Promoción</label>
+                            <input type="text" class="form-control" id="promocionName" required>
                         </div>
-                    </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="promocionPrice" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="promocionPrice" required>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="promocionDescription" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="promocionDescription" rows="3" required></textarea>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="promoImg" class="form-label">Imagen URL</label>
-                        <input type="text" class="form-control" id="promoImg" required readonly>
-                    </div>
+                        <!-- Columna 2: Imagen, Vista previa y URL -->
+                        <div class="col-md-6 mb-3">
+                            <label for="promocionImagetexto" class="form-label">Seleccionar Imagen</label>
+                            <input type="file" id="promocionImage" name="promocionImage" accept="image/*" class="form-control p-2" required>
+                            <input type="text" class="form-control mt-2" id="promoImage" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Vista Previa de la Imagen</label>
+                            <div id="imagePreviewpromo" class="d-flex justify-content-center align-items-center"
+                                 style="width: 100%; height: 200px; border: 2px dashed #ddd; background-size: contain; background-position: center; background-repeat: no-repeat; background-color: #f8f9fa;">
+                                <p class="text-center">No se ha seleccionado ninguna imagen</p>
+                            </div>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="promocionValidity" class="form-label">Validez</label>
-                        <input type="text" class="form-control" id="promocionValidity" required>
-                    </div>
+                        <!-- Columna 3: Imagen URL y Validez -->
+                        <div class="col-md-6 mb-3">
+                            <label for="promoImg" class="form-label">Imagen URL</label>
+                            <input type="text" class="form-control" id="promoImg" required readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="promocionValidity" class="form-label">Validez</label>
+                            <input type="text" class="form-control" id="promocionValidity" required>
+                        </div>
+                    </div> <!-- Fin de la fila (row) -->
 
-                    <button type="submit" class="btn btn-primary">Guardar promoción</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-warning" id="resetImageButtonPromo" style="display: none;">Volver a Cargar</button>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="submit" class="btn btn-primary me-2">Guardar promoción</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-warning" id="resetImageButtonPromo" style="display: none;">Volver a Cargar</button>
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 
     <!-- Modal para Agregar/Modificar Pedido -->
