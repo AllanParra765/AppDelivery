@@ -1,7 +1,12 @@
-//Eliminar promociones 
-async function PromocionesEliminar(eliminarPlatillo) {
+let promocionModificado = 0; // Indicamos que se está modificando
+//////////////
+// METODOS PARA PROMOCIONES
+
+//Eliminar promociones                 PromocionesEliminar(index);
+async function PromocionesEliminar(eliminarPromocion) {
     try {
-        const response = await hacerPeticion(llenarJSONConsultar("CRUD_Restaurante", "eliminarPromocion", {"id_platillo":eliminarPlatillo}));
+        const response = await hacerPeticion(llenarJSONConsultar("CRUD_Restaurante", "eliminarPromocion", 
+            {"id_promocion":eliminarPromocion}));
         console.log('Respuesta de la API: eliminarPromocion', response);
         return response; // Devuelve los datos obtenidos de la API
     } catch (error) {
@@ -20,7 +25,7 @@ async function PromocionesEstado(idPromocion, estadoPromocion) {
         return []; // Retorna un arreglo vacío en caso de error
     }
 }
-
+//Cargar promociones
 async function PromocionesPeticion() {
     try {
         const response = await hacerPeticion(llenarJSONConsultar("CRUD_Restaurante", "cargarPromocion", {}));
@@ -31,15 +36,46 @@ async function PromocionesPeticion() {
         return []; // Retorna un arreglo vacío en caso de error
     }
 }
+
+// Función para insertar una nueva promoción
+async function PromocionesGuardar(nuevaPromocion) {
+    try {
+        const response = await hacerPeticion(llenarJSONConsultar("CRUD_Restaurante", "insertarPromocion", nuevaPromocion));
+        console.log('Respuesta de la API: insertarPromocion', response);
+        return response; // Devuelve los datos obtenidos de la API
+    } catch (error) {
+        console.error('Error al cargar los datos de insertarPromocion:', error);
+        return []; // Retorna un arreglo vacío en caso de error 
+    }
+}
+
+// Función para modificar una promoción existente
+async function PromocionesModificar(modificarPromocion) {
+    try {
+        const response = await hacerPeticion(llenarJSONConsultar("CRUD_Restaurante", "actualizarPromocion", modificarPromocion));
+        console.log('Respuesta de la API: modificarPromocion', response);
+        return response; // Devuelve los datos obtenidos de la API
+    } catch (error) {
+        console.error('Error al cargar los datos de modificarPromocion:', error);
+        return []; // Retorna un arreglo vacío en caso de error
+    }
+}
+
+
+////////////// 
+// FIN METODOS PARA PROMOCIONES
+
+////////////////////////
+// MANEJO DE IMAGENES PARA PROMOCIONES
+
 // Función para cargar la imagen al editar una promoción
 function cargarImagenPromo(imageUrl) {
     // Asumiendo que 'imageUrl' es el nombre del archivo o una ruta relativa
    //const imagePath = `../../API/imagenes/${'Platillo-20250717150801459Z.png'}`;  // Asegúrate de que 'imageUrl' sea el nombre del archivo o la ruta relativa
-   const imagePath = `../../API/imagenes/${imageUrl}`;  // Asegúrate de que 'imageUrl' sea el nombre del archivo o la ruta relativa
-
+   //const imagePath = `../../API/imagenes/${imageUrl}`;  // Asegúrate de que 'imageUrl' sea el nombre del archivo o la ruta relativa
+   const imagePath = `${imageUrl}`;  // Asegúrate de que 'imageUrl' sea el nombre del archivo o la ruta relativa
     // Establecer la URL de la imagen de fondo para la vista previa
-   // document.getElementById('imagePreviewpromo').style.backgroundImage = `url(${imagePath})`;
-    document.getElementById('imagePreviewpromo').style.backgroundImage = `url(${'https://images.pexels.com/photos/30709482/pexels-photo-30709482.jpeg'})`;
+    document.getElementById('imagePreviewpromo').style.backgroundImage = `url(${imagePath})`;
 
     // Asignar la ruta de la imagen al campo oculto de texto
     document.getElementById('promoImg').value = imagePath;  // Guardamos solo la ruta relativa
@@ -51,7 +87,6 @@ function resetImagePromo() {
     document.getElementById('imagePreviewpromo').style.backgroundImage = '';  // Eliminar la vista previa
     document.getElementById('promoImg').value = '';  // Eliminar la URL de la imagen
 }
-
 // Función para manejar la carga de la imagen y mostrar la vista previa
 function handleImageUploadPromo(event) {
     const file = event.target.files[0]; // Obtiene el archivo seleccionado
@@ -62,14 +97,13 @@ function handleImageUploadPromo(event) {
             // Establecer la URL de la imagen para la vista previa
             const imageUrl = e.target.result;
             document.getElementById('imagePreviewpromo').style.backgroundImage = `url(${imageUrl})`;
-            document.getElementById('promoImg').value = imageUrl;  // Asignar la URL de la imagen al campo de texto
+           // document.getElementById('promoImg').value = imageUrl;  // Asignar la URL de la imagen al campo de texto
         };
 
         // Leer la imagen como URL de datos (base64)
         reader.readAsDataURL(file);
     }
 }
-
 // Función para restablecer la imagen y la vista previa
 function resetImagePromo() {
     document.getElementById('promocionImage').value = '';  // Restablecer el campo de imagen
@@ -77,87 +111,23 @@ function resetImagePromo() {
     document.getElementById('promoImg').value = '';  // Eliminar la URL de la imagen
     document.getElementById('resetImageButtonPromo').style.display = 'none';  // Eliminar la imagen subida
 }
+////////////////////
+// FIN MANEJO DE IMAGENES PARA PROMOCIONES
 
+// Inicializar la tabla de promociones al cargar la página
 // Agregar los event listeners cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
     // Asignar los eventos a los elementos
     document.getElementById('promocionImage').addEventListener('change', handleImageUploadPromo);
     document.getElementById('resetImageButtonPromo').addEventListener('click', resetImagePromo);
 });
-
-// Función para guardar la promoción
-async function savePromotion() {
-    console.log('Guardando imagen de la promoción...');
-    const promocionName = document.getElementById('promocionName').value;
-    const promocionImageInput = document.getElementById('promocionImage'); // Usamos 'promocionImage' para acceder al archivo
-    const promocionImage = promocionImageInput.files[0]; // Obtener el archivo real desde el input de tipo file
-
-    console.log('Nombre de la promoción:', promocionName);
-    console.log('Imagen de la promoción:', promocionImage);
-    // Verificar que el nombre de la promoción esté cargado
-    if (!promocionName) {
-       // alert('Por favor, escribe el nombre de la promoción.');
-        mostrarAlerta('Por favor, escribe el nombre de la promoción.', 'warning');
-        return;
-    }
-
-    let imageUrl = '';
-
-    // Si se carga una nueva imagen, la subimos
-    if (promocionImage) {
-        const formData = new FormData();
-        formData.append('promocionImage', promocionImage); // Aquí 'promocionImage' debe coincidir con el nombre del campo en el servidor
-        formData.append('promocionName', promocionName);
-
-        try {
-            const response = await axios.post('/promociones', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data' // Indicar que se está enviando un archivo
-                }
-            });
-
-            // Obtener la URL de la imagen subida
-            imageUrl = response.data.imageUrl;
-
-            // Mostrar la imagen subida como vista previa
-            document.getElementById('imagePreview').style.backgroundImage = `url(${imageUrl})`;
-            document.getElementById('promoImg').value = imageUrl; // Asignar la URL de la imagen al campo de texto
-        } catch (error) {
-            console.error('Error al guardar la imagen:', error);
-        }
-    } else {
-        // Si no se carga una nueva imagen, se conserva la URL de la imagen existente
-        imageUrl = document.getElementById('promoImg').value;
-    }
-
-    // Crear el objeto de la promoción
-    const promotion = {
-        nombre: promocionName,
-        descripcion: document.getElementById('promocionDescription').value,
-        precio: parseFloat(document.getElementById('promocionPrice').value),
-        imagen: imageUrl,
-        validez: document.getElementById('promocionValidity').value,
-        estado: 'activo'
-    };
-
-    // Aquí puedes agregar la lógica para guardar la promoción en tu base de datos, ya sea enviando una solicitud a tu servidor.
-    // Por ejemplo:
-    // await axios.post('/api/promociones', promotion);
-
-    // Mostrar un mensaje de éxito
-    Swal.fire('¡Éxito!', 'Promoción guardada correctamente', 'success');
-    $('#promocionModal').modal('hide'); // Cerrar el modal
-}
-
 // Llamar a la función de guardado al hacer submit en el formulario
 document.getElementById('promocionForm').addEventListener('submit', function(e) {
     e.preventDefault();
     savePromotion();
 });
-
-
-
 async function initializePromocionesTable() {
+    promocionModificado = 0; // Reiniciamos la variable al inicializar la tabla
     const promocionesData = await PromocionesPeticion(); // Espera la respuesta de la API antes de inicializar la tabla
     
     // Destruir la tabla si ya está inicializada
@@ -210,9 +180,17 @@ async function initializePromocionesTable() {
             url: 'https://cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json' // Establecer idioma en español
         }
     });
-
+    function formatearFecha(fecha) {
+        const fechaObj = new Date(fecha);
+        const anio = fechaObj.getFullYear();
+        const mes = String(fechaObj.getMonth() + 1).padStart(2, '0'); // Se suma 1 porque los meses van de 0 a 11
+        const dia = String(fechaObj.getDate()).padStart(2, '0'); // Asegura que el día tenga 2 dígitos
+        return `${anio}-${mes}-${dia}`;
+    }
+    
     // Función para mostrar el modal de agregar/modificar promoción
     window.modifyPromocion = function(name) {
+        promocionModificado = name; // Indicamos que se está modificando
         document.getElementById('resetImageButton').style.display = 'block';  // Eliminar la imagen subida
         console.log('Modificar promoción:', name);
         const productData = promocionesData.find(item => item.id_promocion === parseInt(name));
@@ -221,6 +199,9 @@ async function initializePromocionesTable() {
             $('#promocionName').val(productData.nombre);
             $('#promocionDescription').val(productData.descripcion);
             $('#promocionPrice').val(productData.precio);
+            // Asignar las fechas formateadas a los campos de fecha
+            $('#promocionFechaInicio').val(formatearFecha(productData.fecha_inicio));
+            $('#promocionFechaFin').val(formatearFecha(productData.fecha_fin));
             //$('#promocionImage').val(productData.imagen);
             // Mostrar la vista previa de la imagen (usando la URL almacenada en el producto)
            cargarImagenPromo(productData.imagen);
@@ -256,7 +237,7 @@ console.log('Nuevo estado de la promoción:', productData.estado);
             if (result.isConfirmed) {
                 const index = promocionesData.findIndex(item => item.id_promocion === parseInt(name));
                 console.log('Índice de la promoción a eliminar:', index);
-                PromocionesEliminar(index);
+                PromocionesEliminar(name);
                 if (index !== -1) {
                     promocionesData.splice(index, 1);
                     table.clear().rows.add(promocionesData).draw(); // Redibujamos la tabla sin la promoción eliminada
@@ -299,5 +280,152 @@ console.log('Nuevo estado de la promoción:', productData.estado);
         table.clear().rows.add(promocionesData).draw(); // Redibujamos la tabla con la nueva promoción
         $('#promocionModal').modal('hide');
     });
+}
+/////////////////////////
+// Función para leer la imagen como Base64
+async function leerImagenComoBase64(inputFile) {
+    
+    return new Promise((resolve, reject) => {
+        const file = inputFile.files[0]; // Obtener el archivo seleccionado
+        const reader = new FileReader(); // Creamos una instancia de FileReader
+
+        reader.onloadend = function () {
+            const base64Image = reader.result; // Esto es una cadena con el prefijo 'data:image/png;base64,...'
+        //    console.log("Imagen en Base64:", base64Image); // Mostramos la imagen en Base64
+            resolve(base64Image);  // Retornamos la imagen en Base64
+        };
+
+        reader.onerror = function () {
+            reject('Error al leer la imagen');  // Rechazamos si hay error al leer la imagen
+        };
+
+        reader.readAsDataURL(file); // Leemos el archivo como URL en Base64
+    });
+}
+// Función para procesar la imagen y obtener la URL
+async function procesarImagenPromo(productImage) {
+    let imageUrl = '';  // Inicializamos la variable para la URL de la imagen
+
+    // Si es una nueva imagen, la subimos
+    if (productImage && productImage.startsWith('data:image')) {
+        // Convertimos la imagen base64 a un Blob
+        const mime = productImage.split(';')[0].split(':')[1];  // Obtiene el tipo MIME (image/png, image/jpeg, etc.)
+        const imageBlob = base64ToBlobPromo(productImage, mime);
+
+        // Ahora que tenemos el Blob, lo podemos agregar al FormData
+        const formData = new FormData();
+        formData.append('personaImage', imageBlob, 'image.png'); // El tercer parámetro es el nombre del archivo
+
+        try {
+            // Realizamos la petición para subir la imagen
+            const response = await axios.post('/imagenes', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Indicar que se está enviando un archivo
+                }
+            });
+
+            // Obtener la URL de la imagen subida desde la respuesta
+            imageUrl = response.data.imageUrl; // Asumiendo que el servidor devuelve una URL
+
+            // Mostrar la imagen subida como vista previa (si es necesario)
+            const uploadedImage = document.getElementById('uploadedImage');
+            if (uploadedImage) {
+                uploadedImage.src = imageUrl;  // Asignamos la URL de la imagen a la vista previa
+            }
+
+            // Mostrar la URL de la imagen en el campo de texto 'productImage'
+            document.getElementById('productImage').value = imageUrl; // Asignamos la URL al campo correspondiente
+
+        } catch (error) {
+            console.error('Error al guardar la imagen:', error);
+        }
+    } else {
+        // Si no hay imagen o estamos modificando, usamos la imagen existente
+        imageUrl = document.getElementById('productImage').value;
+    }
+
+    return imageUrl;  // Retornar la URL de la imagen
+}
+// Función para convertir base64 a Blob
+function base64ToBlobPromo(base64, mime) {
+    const byteString = atob(base64.split(',')[1]); // Eliminar el prefijo "data:image/png;base64,"
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const uintArray = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < byteString.length; i++) {
+        uintArray[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([uintArray], { type: mime });
+}
+
+/// Función para guardar o modificar la promoción
+async function savePromotion() {
+    const promocionName = document.getElementById('promocionName').value;
+    const promocionPrice = parseFloat(document.getElementById('promocionPrice').value);
+    const promocionDescription = document.getElementById('promocionDescription').value;
+    const promocionFechaInicio = document.getElementById('promocionFechaInicio').value; // Fecha de inicio
+    const promocionFechaFin = document.getElementById('promocionFechaFin').value; // Fecha de fin
+    const promocionImage = document.getElementById('promocionImage').files[0]; // Obtener la imagen del campo de tipo file
+    const promocionValidity = document.getElementById('promocionValidity').value;
+
+    // Validar que el nombre esté cargado
+    if (!promocionName) {
+        mostrarAlerta('Por favor, escribe el nombre de la promoción.', 'warning');
+        return;
+    }
+
+    // Verificar que la imagen sea seleccionada, solo si no es una modificación
+    if (!promocionImage && !$('#productModal').data('productId')) {
+        mostrarAlerta('Por favor, selecciona una imagen para la promoción.', 'warning');
+        return;
+    }
+
+    // Procesar la imagen si existe
+    let imageUrl = '';
+    if (promocionImage) {
+        try {
+            imageUrl = await leerImagenComoBase64(document.getElementById('promocionImage'));  // Obtener la URL de la imagen en Base64
+           imageUrl = await procesarImagenPromo(imageUrl);
+        } catch (error) {
+            console.error('Error al procesar la imagen:', error);
+            mostrarAlerta('Error al procesar la imagen.', 'error');
+            return;
+        }
+    } else {
+        imageUrl = document.getElementById('promoImg').value;  // Usar la imagen existente
+    }
+
+    // Crear el objeto con los datos obtenidos del formulario
+    const promotionData = {
+        nombre: promocionName,
+        precio: promocionPrice,
+        descripcion: promocionDescription,
+        fecha_inicio: promocionFechaInicio,
+        fecha_fin: promocionFechaFin,
+        imagen: imageUrl,  // La URL de la imagen (en Base64 o la URL si ya existe)
+        validez: promocionValidity
+    };
+
+    // Si estamos modificando
+    promocionId = promocionModificado; // Usar la variable global para el ID de la promoción a modificar
+    if (promocionId > 0) {
+        promotionData.id_promocion = promocionId;
+        console.log('Datos de la promoción a modificar:', promotionData);
+        await PromocionesModificar(promotionData); // Llamar a la función para modificar
+        mostrarAlerta('Promoción modificada con éxito', 'success');
+        initializePromocionesTable(); // Recargar la tabla para reflejar los cambios
+    } else {
+        console.log('Datos de la nueva promoción a insertar:', promotionData);
+        await PromocionesGuardar(promotionData); // Llamar a la función para insertar
+        mostrarAlerta('Promoción agregada con éxito', 'success');
+        initializePromocionesTable(); // Recargar la tabla para reflejar los cambios
+    }
+
+    // Aquí puedes llamar al servidor para guardar o modificar la promoción
+    // Asegúrate de enviar `promotionData` al servidor
+
+    // Por ejemplo:
+    // await axios.post('/promociones', promotionData);  // Ejemplo de cómo guardar la promoción
 }
 

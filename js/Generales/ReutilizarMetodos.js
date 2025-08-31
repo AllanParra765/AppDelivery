@@ -120,3 +120,12 @@ modal.addEventListener('hidden.bs.modal', limpiarBackdrop);
 function cerrarModal(modalACerrar) {
     $('#' + modalACerrar).modal('hide');  // Usando jQuery para cerrar el modal
 }
+/*
+    function formatearFecha(fecha) {
+        const fechaObj = new Date(fecha);
+        const anio = fechaObj.getFullYear();
+        const mes = String(fechaObj.getMonth() + 1).padStart(2, '0'); // Se suma 1 porque los meses van de 0 a 11
+        const dia = String(fechaObj.getDate()).padStart(2, '0'); // Asegura que el día tenga 2 dígitos
+        return `${anio}-${mes}-${dia}`;
+    }
+    */
