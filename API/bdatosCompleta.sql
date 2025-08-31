@@ -36,7 +36,8 @@ VALUES
 ('Desayunos', 'Lunes a Domingo', 'activo', 0),
 ('Comidas', 'Lunes a Domingo', 'activo', 0),
 ('Bebidas', 'Lunes a Domingo', 'activo', 0),
-('Postres', 'Lunes a Domingo', 'activo', 0);
+('Postres', 'Lunes a Domingo', 'activo', 0),
+('Promociones', 'Lunes a Domingo', 'activo', 0);
 
 
 

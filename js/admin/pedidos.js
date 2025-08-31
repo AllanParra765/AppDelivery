@@ -33,6 +33,14 @@ async function CancelarPedidosPeticion(id_pedido) {
     }
 }
 
+function formatearFecha(fecha) {
+    const fechaObj = new Date(fecha);
+    const anio = fechaObj.getFullYear();
+    const mes = String(fechaObj.getMonth() + 1).padStart(2, '0'); // Se suma 1 porque los meses van de 0 a 11
+    const dia = String(fechaObj.getDate()).padStart(2, '0'); // Asegura que el día tenga 2 dígitos
+    return `${anio}-${mes}-${dia}`;
+}
+
 async function initializePedidosTable() {
     const pedidosData = await PedidosPeticion(); // Asegúrate de esperar la respuesta de la API
 
@@ -66,7 +74,7 @@ async function initializePedidosTable() {
             { data: 'nombre' },
             { data: 'telefono' },
             { data: 'pedido' },
-            { data: 'fecha' },
+            { data: 'fecha', render: function(data) { return formatearFecha(data); } },
             { 
                 data: 'estado', 
                 render: function(data) {
@@ -93,20 +101,6 @@ async function initializePedidosTable() {
         }
     });
 
-    // Funciones para las acciones de los botones
-   /* window.modifyPedido = function(id) {
-        const pedido = pedidosData.find(item => item.id_pedido === id);
-        if (pedido) {
-            $('#productModalLabel').text('Modificar Pedido');
-            $('#pedidoName').val(pedido.nombre);
-            $('#pedidoPhone').val(pedido.telefono);
-            $('#pedidoItems').val(pedido.pedido);
-            $('#pedidoDate').val(pedido.fecha);
-            $('#pedidoStatus').val(pedido.estado);
-            $('#pedidoTotal').val(pedido.total);
-            $('#pedidoModal').modal('show');
-        }
-    };*/
 
     window.togglePedidoStatus = function(id) {
         const pedidoData = pedidosData.find(item => item.id_pedido === id);
