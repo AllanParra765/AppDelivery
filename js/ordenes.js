@@ -26,32 +26,6 @@ function openOrderModal(productName, productPrice, mostramosBusqueda = true) {
     }
 }
   
-function addToOrder() {
-    const productName = document.getElementById("quantityInput").dataset.productName;
-    const productPrice = parseFloat(document.getElementById("quantityInput").dataset.productPrice);
-    const quantity = parseInt(document.getElementById("quantityInput").value);
-    const totalPrice = productPrice * quantity;
-
-    // Verificar si el producto ya existe en el pedido
-    const existingProductIndex = order.findIndex(item => item.productName === productName);
-    if (existingProductIndex !== -1) {
-        // Si el producto ya está en el pedido, solo actualizamos la cantidad
-        order[existingProductIndex].quantity += quantity;
-        order[existingProductIndex].totalPrice = order[existingProductIndex].quantity * order[existingProductIndex].unitPrice;
-    } else {
-        // Si el producto no está en el pedido, lo agregamos
-        order.push({ productName, quantity, unitPrice: productPrice, totalPrice });
-    }
-
-    // Actualizar el total
-    updateTotal();
-    updateOrderSummary();
-    showSuccessMessage();
-
-    // Cerrar el modal
-    toggleModal('orderModal');
-}
-
 function toggleModal(modalId, busqueda = true) {
     console.log(`Toggling modal: ${modalId}`);
     const currentModal = document.querySelector('.modal.show'); // Encuentra el modal actualmente abierto
@@ -86,7 +60,10 @@ function updateTotal() {
     document.getElementById("totalAmount").textContent = total.toFixed(2); // Actualizar total en el modal
 }
 
+
 function updateOrderSummary() {
+    console.log("cantidad de producctos en el pedido:", order.length);
+    updateOrderBadge(order.length);
     const orderSummary = document.getElementById("orderSummary");
     orderSummary.innerHTML = ''; // Limpiar el resumen
 
@@ -102,92 +79,94 @@ function updateOrderSummary() {
     // Recorrer el array 'order' y mostrar cada producto en el resumen
     order.forEach((item, index) => {
         const div = document.createElement("div");
-        div.classList.add("d-flex", "justify-content-between", "align-items-center", "mb-2", "p-2", "border", "border-light", "rounded");
-
-        // Nombre del producto y cantidad
-        const productInfo = document.createElement("div");
-        productInfo.classList.add("text-truncate");
-        productInfo.innerHTML = `<strong>${item.productName}</strong> 
-                                 <span class="text-muted">x</span>
-                                 <span id="productQuantity-${index}" class="quantity-display">${item.quantity}</span>`;
-
-        // Botones de incremento y decremento
-        const quantityControls = document.createElement("div");
-        quantityControls.classList.add("btn-group");
-
-        const decreaseButton = document.createElement("button");
-        decreaseButton.classList.add("btn", "btn-sm", "btn-secondary");
-        decreaseButton.innerHTML = "<i class='fas fa-minus'></i>";
-        decreaseButton.title = "Disminuir cantidad";
-        decreaseButton.onclick = function() {
-            if (item.quantity > 1) {
-                item.quantity--;
-                item.totalPrice = item.quantity * item.unitPrice; // Actualizar el precio total
-                updateOrderSummary(); // Actualizar el resumen después de decrementar
-            }
-        };
-
-        const increaseButton = document.createElement("button");
-        increaseButton.classList.add("btn", "btn-sm", "btn-secondary");
-        increaseButton.innerHTML = "<i class='fas fa-plus'></i>";
-        increaseButton.title = "Aumentar cantidad";
-        increaseButton.onclick = function() {
-            item.quantity++;
-            item.totalPrice = item.quantity * item.unitPrice; // Actualizar el precio total
-            updateOrderSummary(); // Actualizar el resumen después de incrementar
-        };
-
-        quantityControls.appendChild(decreaseButton);
-        quantityControls.appendChild(increaseButton);
-
-        // Total por producto
-        const productTotal = document.createElement("span");
-        productTotal.classList.add("text-success");
-        productTotal.textContent = `$${item.totalPrice.toFixed(2)}`;
-
-        // Botón de eliminar (ícono de papelera)
+        div.className = "order-item";
+    
+        // Botón de eliminar
         const deleteButton = document.createElement("button");
-        deleteButton.classList.add("btn", "btn-danger", "btn-sm");
+        deleteButton.className = "btn btn-sm btn-danger delete-btn";
         deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
         deleteButton.title = "Eliminar producto";
-        deleteButton.addEventListener("click", function() {
+        deleteButton.addEventListener("click", () => {
             Swal.fire({
-                title: `¿Estás seguro de eliminar ${item.productName} del pedido?`,
+                title: `¿Eliminar ${item.productName}?`,
                 text: "Esta acción no se puede deshacer.",
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Sí, eliminar',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
+                confirmButtonText: 'Sí',
+                cancelButtonText: 'No'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Eliminar el producto del array 'order'
                     order.splice(index, 1);
-                    updateOrderSummary(); // Actualizar el resumen después de eliminar
-                    Swal.fire(
-                        'Eliminado!',
-                        `${item.productName} ha sido eliminado del pedido.`,
-                        'success'
-                    );
+                    updateOrderSummary();
                 }
             });
         });
-
-        div.appendChild(productInfo);
-        div.appendChild(quantityControls);
-        div.appendChild(productTotal);
+    
+        // Nombre del producto (primer renglón)
+        const productInfo = document.createElement("div");
+        productInfo.className = "product-info";
+        productInfo.textContent = item.productName;
+    
+        // Controles de cantidad + precio (segundo renglón)
+        const productControls = document.createElement("div");
+        productControls.className = "product-controls";
+    
+        // Controles de cantidad
+        const quantityControls = document.createElement("div");
+        quantityControls.className = "quantity-controls btn-group";
+    
+        const decreaseButton = document.createElement("button");
+        decreaseButton.className = "btn btn-sm btn-info";
+        decreaseButton.innerHTML = "<i class='fas fa-minus text-white'></i>";
+        decreaseButton.onclick = () => {
+            if (item.quantity > 1) {
+                item.quantity--;
+                item.totalPrice = item.quantity * item.unitPrice;
+                updateOrderSummary();
+            }
+        };
+    
+        const quantityDisplay = document.createElement("span");
+        quantityDisplay.textContent = item.quantity;
+    
+        const increaseButton = document.createElement("button");
+        increaseButton.className = "btn btn-sm btn-info";
+        increaseButton.innerHTML = "<i class='fas fa-plus text-white'></i>";
+        increaseButton.onclick = () => {
+            item.quantity++;
+            item.totalPrice = item.quantity * item.unitPrice;
+            updateOrderSummary();
+        };
+    
+        quantityControls.appendChild(decreaseButton);
+        quantityControls.appendChild(quantityDisplay);
+        quantityControls.appendChild(increaseButton);
+    
+        // Precio
+        const productTotal = document.createElement("div");
+        productTotal.className = "product-total";
+        productTotal.textContent = `$${item.totalPrice.toFixed(2)}`;
+    
+        // Agregar controles y total al segundo renglón
+        productControls.appendChild(quantityControls);
+        productControls.appendChild(productTotal);
+    
+        // Agregar todo al div del producto
         div.appendChild(deleteButton);
-
+        div.appendChild(productInfo);
+        div.appendChild(productControls);
+    
         orderSummary.appendChild(div);
-
-        // Recalcular el total del pedido
-        total += item.totalPrice;  // Sumar el precio total de este artículo al total general
+    
+        total += item.totalPrice;
     });
+    
 
     // Mostrar el total general con formato
     const totalAmount = document.getElementById("totalAmount");
     totalAmount.textContent = `$${total.toFixed(2)}`; // Asegurarnos de mostrar el total formateado
     totalAmount.classList.add("h4", "font-weight-bold", "text-primary"); // Añadir clases de estilo
+
 }
 
 // Función para agregar productos al pedido
@@ -212,6 +191,9 @@ function addToOrder() {
             totalPrice
         });
     }
+    console.log("cantidad de producctos en el pedido:", order.length);
+    updateOrderBadge(order.length);
+ 
 
     // Actualizar el total
     updateOrderSummary();
@@ -220,4 +202,16 @@ function addToOrder() {
     // Cerrar el modal
     const modal = bootstrap.Modal.getInstance(document.getElementById('orderModal'));
     modal.hide();
+}
+
+function updateOrderBadge(totalItems) {
+    const badge = document.getElementById("orderBadge");
+   //const totalItems = order.reduce((sum, item) => sum + item.quantity, 0);
+
+    if (totalItems > 0) {
+        badge.classList.remove("d-none");
+        badge.textContent = totalItems;
+    } else {
+        badge.classList.add("d-none");
+    }
 }

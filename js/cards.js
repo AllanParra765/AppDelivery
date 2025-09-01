@@ -72,6 +72,9 @@ function mostrarCategorias(categoriasData) {
     // Asegurarse de que la categoría "Promociones" esté al principio si existe
     const promocionesCategory = categoriasData.find(cat => cat.nombre === "Promociones");
     if (promocionesCategory) {
+
+    // Llama al auto-scroll después de cargar los items
+    iniciarAutoScroll();
         // Mover "Promociones" al principio del array
         categoriasData = [promocionesCategory, ...categoriasData.filter(cat => cat.nombre !== "Promociones")];
     }
@@ -149,4 +152,52 @@ function mostrarCategoria(categoriaSeleccionada) {
 // Llamar a la función para cargar las categorías al principio
 cargarCategoriaPeticion();
 
+
+// Auto-scroll para los cards
+function iniciarAutoScroll() {
+    const container = document.getElementById('menuItems');
+    let scrollSpeed = 0.5; // Ajusta la velocidad
+    let direction = 1; // 1 = derecha, -1 = izquierda
+    let scrolling = true;
+
+    function scrollCards() {
+        if (!scrolling) return;
+        
+        container.scrollLeft += scrollSpeed * direction;
+
+        // Cambiar dirección al llegar al final o al inicio
+        if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+            direction = -1;
+        } else if (container.scrollLeft <= 0) {
+            direction = 1;
+        }
+
+        requestAnimationFrame(scrollCards);
+    }
+
+    scrollCards();
+
+    // Detener o reanudar al hacer clic
+    container.addEventListener('mousemove', () => {
+        scrolling = !scrolling;
+        if (scrolling) scrollCards();
+    });
+}
+
+
+// Llama a esta función después de cargar los productos
+
+///////////////////////////////////////////////////////////////
+
+
+// Llama a esta función después de cargar los productos
+
+
+
+
+// Función para scroll manual con botones
+function scrollMenu(amount) {
+    const container = document.getElementById('menuItems');
+    container.scrollLeft += amount; // positivo = derecha, negativo = izquierda
+}
 

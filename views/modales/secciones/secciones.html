@@ -11,14 +11,21 @@
     </div>
 </div>
 
-<!-- Contenedor donde se cargarán dinámicamente las categorías que se ven al seleccionar una opcion del menú -->
-<section class="menu-section" id="menuSection" style="display: none;">
-    <div class="container">
-        <h2 class="text-center my-4 py-3 bg-success text-white rounded shadow-sm text-uppercase" id="sectionTitle"></h2>
-        <div class="scroll-container" id="menuItems">
 
-            <!-- Los productos de la categoría seleccionada se cargarán aquí -->
-        </div>
-    </div>
-</section>
+  <div class="pb-4" style="display: none; position: relative;" id="menuSection">
+      <h2 class="text-center my-4 py-3 bg-success text-white rounded shadow-sm text-uppercase" id="sectionTitle"></h2>
+      
+      <!-- Botones para desplazar las cards (solo desktop) -->
+      <button class="scroll-btn left-btn d-none d-md-block bi bi-arrow-left-circle-fill" onmousemove="scrollMenu(-300)" onclick="scrollMenu(-300)">
+          &#8592;
+      </button>
+      <button class="scroll-btn right-btn d-none d-md-block" onmousemove="scrollMenu(300)" onclick="scrollMenu(300)">
+          &#8594;
+      </button>
+
+      <div class="scroll-container" id="menuItems">
+          <!-- Los productos de la categoría seleccionada se cargarán aquí -->
+      </div>
+  </div>
+
 

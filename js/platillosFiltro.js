@@ -60,27 +60,35 @@ async function PlatillosPeticion() {
   
       // Crear el contenido HTML
       li.innerHTML = `
-        <div class="d-flex flex-column">
-          <!-- Primer renglon: Nombre y precio del platillo -->
-          <div class="d-flex justify-content-between mb-3">
-            <span class="fw-bold text-truncate" style="color: #343a40; font-size: 1.2rem; line-height: 1.5;">${item.nombre}</span>
-            <span class="text-success" style="font-size: 1.1rem; font-weight: bold;">$${parseFloat(item.precio).toFixed(2)}</span>
-          </div>
-  
-          <!-- Segundo renglon: Botones de acción (en un solo renglón) -->
-          <div class="d-flex justify-content-between mt-2">
-            <!-- Botón para agregar al pedido con icono -->
-            <button class="btn btn-success btn-lg w-48 rounded-pill m-2" onclick="openOrderModal('${item.nombre}', ${parseFloat(item.precio).toFixed(2)})">
-              <i class="fas fa-utensils"></i> Ordenar
-            </button>
-  
-            <!-- Botón para ver los ingredientes con icono -->
-            <button class="btn btn-info btn-lg w-48 rounded-pill m-2" onclick="showDetailsWithIngredients(this, true)" data-ingredients="${item.ingredientes}" data-image="${item.imagen}">
-              <i class="fas fa-apple-alt"></i> Ingredientes
-            </button>
-          </div>
+      <div class="d-flex flex-column p-3 border rounded shadow-sm bg-white">
+        
+        <!-- Primer renglón: Nombre y precio del platillo -->
+        <div class="d-flex justify-content-between align-items-start mb-2">
+          <span class="fw-bold text-truncate" style="color: #343a40; font-size: 1.2rem; line-height: 1.3;" title="${item.nombre}">${item.nombre}</span>
+          <span class="text-success fw-bold" style="font-size: 1.1rem;">$${parseFloat(item.precio).toFixed(2)}</span>
         </div>
-      `;
+    
+        <!-- Segundo renglón: Botones de acción -->
+        <div class="d-flex justify-content-between gap-2 mt-2 flex-wrap">
+          
+          <!-- Botón para agregar al pedido -->
+          <button class="btn btn-success flex-fill rounded-pill d-flex align-items-center justify-content-center py-2" 
+                  onclick="openOrderModal('${item.nombre}', ${parseFloat(item.precio).toFixed(2)})">
+            <i class="fas fa-cart-plus me-2"></i> Ordenar
+          </button>
+    
+          <!-- Botón para ver ingredientes -->
+          <button class="btn btn-info flex-fill rounded-pill d-flex align-items-center justify-content-center py-2"
+                  onclick="showDetailsWithIngredients(this, true)" 
+                  data-ingredients="${item.ingredientes}" 
+                  data-image="${item.imagen}">
+            <i class="fas fa-seedling me-2"></i> Ingredientes
+          </button>
+          
+        </div>
+      </div>
+    `;
+    
             
       platilloList.appendChild(li);
     });
