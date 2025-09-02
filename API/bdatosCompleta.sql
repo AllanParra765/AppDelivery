@@ -1,3 +1,53 @@
+INSERT INTO Catalogo_Digital.platillos (nombre, descripcion, precio, categoria_id, ingredientes, estado)
+VALUES 
+('Chilaquiles Verdes', 'Tortillas fritas con salsa verde, pollo y queso', 85.00, 1, 'Tortilla, salsa verde, pollo, queso, crema', 'activo'),
+('Huevos a la Mexicana', 'Huevos revueltos con jitomate, cebolla y chile', 60.00, 1, 'Huevos, jitomate, cebolla, chile', 'activo'),
+('Hot Cakes', 'Deliciosos hot cakes con miel y mantequilla', 55.00, 1, 'Harina, huevo, leche, mantequilla, miel', 'activo'),
+('Omelette de Jamón y Queso', 'Omelette relleno de jamón y queso', 65.00, 1, 'Huevos, jamón, queso, aceite', 'activo'),
+('Avena con Frutas', 'Avena caliente con frutas frescas y miel', 50.00, 1, 'Avena, leche, plátano, fresa, miel', 'activo');
+
+INSERT INTO Catalogo_Digital.platillos (nombre, descripcion, precio, categoria_id, ingredientes, estado)
+VALUES
+('Tacos al Pastor', 'Tacos con carne al pastor, piña y cebolla', 90.00, 2, 'Tortilla, carne de cerdo, piña, cebolla, cilantro', 'activo'),
+('Enchiladas Rojas', 'Enchiladas bañadas en salsa roja con queso', 95.00, 2, 'Tortilla, pollo, salsa roja, queso, crema', 'activo'),
+('Mole Poblano', 'Pollo en mole poblano acompañado de arroz', 120.00, 2, 'Pollo, chocolate, chile, especias, arroz', 'activo'),
+('Sopa de Fideo', 'Sopa tradicional de fideo con jitomate y caldo', 55.00, 2, 'Fideo, jitomate, caldo de pollo, aceite, sal', 'activo'),
+('Hamburguesa Especial', 'Hamburguesa con carne, queso, lechuga y tomate', 100.00, 2, 'Pan, carne de res, queso, lechuga, tomate, aderezo', 'activo');
+
+INSERT INTO Catalogo_Digital.platillos (nombre, descripcion, precio, categoria_id, ingredientes, estado)
+VALUES
+('Café Americano', 'Café filtrado caliente', 25.00, 3, 'Café, agua', 'activo'),
+('Cappuccino', 'Café con espuma de leche', 35.00, 3, 'Café, leche, espuma', 'activo'),
+('Jugo de Naranja', 'Jugo natural recién exprimido', 30.00, 3, 'Naranja', 'activo'),
+('Limonada', 'Refrescante limonada con hielo', 20.00, 3, 'Limón, agua, azúcar', 'activo'),
+('Batido de Fresa', 'Batido cremoso de fresa con leche', 40.00, 3, 'Fresa, leche, azúcar, hielo', 'activo');
+
+
+INSERT INTO Catalogo_Digital.platillos (nombre, descripcion, precio, categoria_id, ingredientes, estado)
+VALUES
+('Pastel Tres Leches', 'Pastel esponjoso bañado en tres tipos de leche', 70.00, 4, 'Harina, leche, huevo, azúcar, vainilla', 'activo'),
+('Flan de Caramelo', 'Flan clásico con caramelo', 50.00, 4, 'Huevo, leche, azúcar, vainilla', 'activo'),
+('Pay de Limón', 'Pay con base de galleta y crema de limón', 60.00, 4, 'Galleta, mantequilla, leche condensada, limón', 'activo'),
+('Brownie con Helado', 'Brownie caliente con helado de vainilla', 65.00, 4, 'Chocolate, harina, huevo, mantequilla, helado', 'activo'),
+('Gelatina de Fresas', 'Gelatina fresca de fresas naturales', 35.00, 4, 'Fresas, gelatina, azúcar, agua', 'activo');
+
+INSERT INTO Catalogo_Digital.promociones (nombre, descripcion, precio, validez, fecha_inicio, fecha_fin, estado)
+VALUES
+('Combo Desayuno Especial', 'Huevos a la Mexicana + Café Americano', 70.00, 'Solo desayuno', '2025-09-01', '2025-09-30', 'activo'),
+('Almuerzo Familiar', 'Tacos al Pastor + Enchiladas Rojas + Limonada', 180.00, 'Comida familiar', '2025-09-01', '2025-09-30', 'activo'),
+('Happy Hour Bebidas', 'Cappuccino + Batido de Fresa', 60.00, 'Bebidas de la tarde', '2025-09-01', '2025-09-30', 'activo'),
+('Dulce Tentación', 'Pastel Tres Leches + Café Americano', 85.00, 'Postres con bebida', '2025-09-01', '2025-09-30', 'activo'),
+('Combo Kids', 'Hot Cakes + Jugo de Naranja', 65.00, 'Desayuno para niños', '2025-09-01', '2025-09-30', 'activo');
+
+INSERT INTO Catalogo_Digital.platillos (nombre, descripcion, precio, categoria_id, ingredientes, estado)
+VALUES
+('Combo Desayuno Especial', 'Huevos a la Mexicana + Café Americano', 70.00, 5, 'huevo,pico de gallo,café', 'activo'),
+('Almuerzo Familiar', 'Tacos al Pastor + Enchiladas Rojas + Limonada', 180.00, 5, 'tortilla, carne enchilada, tortilla con mole, agua de limon', 'activo'),
+('Happy Hour Bebidas', 'Cappuccino + Batido de Fresa', 60.00, 5, 'Mix de bebidas del día', 'activo'),
+('Dulce Tentación', 'Pastel Tres Leches + Café Americano', 85.00, 5, 'Pastel del día, café', 'activo'),
+('Combo Kids', 'Hot Cakes + Jugo de Naranja', 65.00, 5, 'jugo natural, panque del día', 'activo');
+
+
 -- Eliminar la tabla si ya existe
 DROP DATABASE IF EXISTS Catalogo_Digital;
 CREATE DATABASE Catalogo_Digital;

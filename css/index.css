@@ -22,7 +22,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    min-height: 100vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     background-color: var(--light-bg-color);
@@ -409,3 +409,44 @@ input[type="number"]:focus {
     padding: 3px 6px;
     font-size: 0.8rem;
 }
+
+/*//////////////////////*/
+/* Estilo para los ingredientes */
+#modalIngredients {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  #modalIngredients li {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  /* Estilo para los botones en la columna de acciones */
+  .modal-footer .btn {
+    font-weight: bold;
+  }
+  
+  /* Asegurando que la imagen ocupe bien el espacio */
+/* Estilo para el contenedor de ingredientes con desplazamiento */
+.ingredient-list {
+    max-height: 100px; /* Altura máxima para los ingredientes */
+    overflow-y: auto;  /* Activa el desplazamiento vertical si hay más ingredientes */
+    padding-right: 5px; /* Agrega un pequeño espacio para la barra de desplazamiento */
+    border: 1px solid #ddd; /* Borde sutil */
+    border-radius: 5px; /* Bordes redondeados */
+    background-color: white; /* Fondo claro */
+  }
+  
+  /* Estilo de los ingredientes */
+  #modalIngredients li {
+    list-style: none; /* Eliminar puntos de lista */
+    margin: 3px; /* Espacio alrededor de cada ingrediente */
+    padding: 3px; /* Espacio alrededor de cada ingrediente */
+    border-bottom: 0px solid #ddd; /* Separadores entre los ingredientes */
+  }
+  
+  #modalIngredients li:last-child {
+    border-bottom: none; /* Eliminar la línea en el último ingrediente */
+  }
+  

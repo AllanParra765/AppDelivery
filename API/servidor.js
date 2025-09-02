@@ -1,9 +1,9 @@
 
 // Configuración global de desarrollo
 const config = {
-    locacion: 'http://localhost:3002',
-    //rutaAbrir: 'https://colonialdesarrollo.a.pinggy.link',
-    //rutaAbrirPinggy: 'https://dashboard.pinggy.io/',
+   // locacion: 'http://localhost:3002',
+    rutaAbrir: 'https://colonialdesarrollo.a.pinggy.link',
+    rutaAbrirPinggy: 'https://dashboard.pinggy.io/',
 };
 const express = require('express');
 const cors = require('cors');

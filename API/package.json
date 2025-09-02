@@ -15,6 +15,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "fs": "^0.0.1-security",
+    "http-proxy-middleware": "^3.0.5",
     "multer": "^2.0.1",
     "mysql2": "^3.11.4",
     "path": "^0.12.7",

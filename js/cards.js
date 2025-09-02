@@ -150,7 +150,7 @@ function mostrarCategoria(categoriaSeleccionada) {
 }
 
 // Llamar a la función para cargar las categorías al principio
-cargarCategoriaPeticion();
+//cargarCategoriaPeticion();
 
 
 // Auto-scroll para los cards

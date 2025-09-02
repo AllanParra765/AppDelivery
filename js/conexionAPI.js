@@ -19,8 +19,8 @@ const config = {
 
 // Crear una instancia de Axios reutilizable
 const apiClient = axios.create({
-      baseURL: 'http://localhost:3002/api', // URL base local
-    //baseURL: apiBaseUrl, // api conexion Producción 
+    //  baseURL: 'http://localhost:3002/api', // URL base local
+    baseURL: apiBaseUrl, // api conexion Producción 
     timeout: 5000, // Tiempo de espera
      headers: {
          'Content-Type': 'application/json'
